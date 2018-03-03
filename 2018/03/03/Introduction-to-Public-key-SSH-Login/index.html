@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="SSH is a popular system allowing a remote shell (command interpreter) to be used over a secure connection. By secure, here, I mean that the connection is encrypted, authenticated and integrity checked">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Introduction to Public-key SSH Login">
+<meta property="og:url" content="https://xedr.su/2018/03/03/Introduction-to-Public-key-SSH-Login/index.html">
+<meta property="og:site_name" content="Shubhankar Kahali">
+<meta property="og:description" content="SSH is a popular system allowing a remote shell (command interpreter) to be used over a secure connection. By secure, here, I mean that the connection is encrypted, authenticated and integrity checked">
+<meta property="og:updated_time" content="2018-03-03T18:21:46.502Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Introduction to Public-key SSH Login">
+<meta name="twitter:description" content="SSH is a popular system allowing a remote shell (command interpreter) to be used over a secure connection. By secure, here, I mean that the connection is encrypted, authenticated and integrity checked">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="https://www.gravatar.com/avatar/6a8e24d2dec3de039ae9130cbcd51e7b?s=16">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="https://www.gravatar.com/avatar/6a8e24d2dec3de039ae9130cbcd51e7b?s=192" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="https://www.gravatar.com/avatar/6a8e24d2dec3de039ae9130cbcd51e7b?s=180">
+          
+        
+    
+    <!-- title -->
+    <title>Introduction to Public-key SSH Login</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2018/03/03/Educating-Employees-to-Avoid-Spam/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2018/03/03/Effect-of-PCI-DSS-in-world-market/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://xedr.su/2018/03/03/Introduction-to-Public-key-SSH-Login/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://xedr.su/2018/03/03/Introduction-to-Public-key-SSH-Login/&text=Introduction to Public-key SSH Login"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://xedr.su/2018/03/03/Introduction-to-Public-key-SSH-Login/&title=Introduction to Public-key SSH Login"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://xedr.su/2018/03/03/Introduction-to-Public-key-SSH-Login/&is_video=false&description=Introduction to Public-key SSH Login"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Introduction to Public-key SSH Login&body=Check out this article: https://xedr.su/2018/03/03/Introduction-to-Public-key-SSH-Login/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://xedr.su/2018/03/03/Introduction-to-Public-key-SSH-Login/&title=Introduction to Public-key SSH Login"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://xedr.su/2018/03/03/Introduction-to-Public-key-SSH-Login/&title=Introduction to Public-key SSH Login"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://xedr.su/2018/03/03/Introduction-to-Public-key-SSH-Login/&title=Introduction to Public-key SSH Login"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://xedr.su/2018/03/03/Introduction-to-Public-key-SSH-Login/&title=Introduction to Public-key SSH Login"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://xedr.su/2018/03/03/Introduction-to-Public-key-SSH-Login/&name=Introduction to Public-key SSH Login&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Introduction to Public-key SSH Login
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Shubhankar Kahali</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2018-03-03T18:21:43.000Z" itemprop="datePublished">2018-03-03</time>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>SSH is a popular system allowing a remote shell (command interpreter) to be used over a secure connection. By secure, here, I mean that the connection is encrypted, authenticated and integrity checked. The encryption prevents attackers reading the contents of the data being transmitted, the authentication allows both the client and the server to be sure that they are connected to the other, and not to some intermediate system in a man-in-the-middle attack, and the integrity checking ensures that the data is not being changed during transit. Together, these three features provide a secure connection. </p>
+<p>Even so, the password based login feature transmits your password through this link, to the remote server, where it is hashed and compared with the stored value in the password file. To many, even though the connection is encrypted, this is not satisfactory. SSH allows the use of public key authentication to login to a server. Here, you upload your public key to the server, and keep your private key on the client machine, optionally password protected so that no one can steal your private key file and use it to gain access without a password. </p>
+<p>Now, when the SSH connection is established, the server will need to check the authentication of the client; that is, make sure it is you logging in. This was previously done by requesting your password, and comparing it against the stored password hash. Now, the server encrypts a randomly generated token against your public key, and sends this to you. The private key associated with your public key, stored in a file to which only you have access, either by password protection, filesystem permissions or other means, is the only key able to decrypt this message. Now, your SSH client will decrypt the message and send it back to the server, which compares it against the original value. In reality, the authentication is often also checked in the opposite direction, using the server’s public key, which may be stored by the client. Once the server knows you hold the private key which corresponds to the public key, it grants you access. </p>
+<p>So, you may ask, what is the security benefit here? Well, no secret information is being transmitted. You are no longer transmitting a password, nor are you transmitting any of your private key file. You are using the keys to encrypt and decrypt a piece of random data, which works one time only. Anyone who did somehow manage to listen in on this data stream would not be able to regain access by playing back your password, or even by playing back the same data transaction, as a different value would be encrypted the next time you login, and only the private key itself can decrypt that. </p>
+<p>Public Key authentication is supported in OpenSSH, and also in PuTTY and many other SSH systems. Check your systems documentation for details on how to use public-key based logins.</p>
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://xedr.su/2018/03/03/Introduction-to-Public-key-SSH-Login/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://xedr.su/2018/03/03/Introduction-to-Public-key-SSH-Login/&text=Introduction to Public-key SSH Login"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://xedr.su/2018/03/03/Introduction-to-Public-key-SSH-Login/&title=Introduction to Public-key SSH Login"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://xedr.su/2018/03/03/Introduction-to-Public-key-SSH-Login/&is_video=false&description=Introduction to Public-key SSH Login"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Introduction to Public-key SSH Login&body=Check out this article: https://xedr.su/2018/03/03/Introduction-to-Public-key-SSH-Login/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://xedr.su/2018/03/03/Introduction-to-Public-key-SSH-Login/&title=Introduction to Public-key SSH Login"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://xedr.su/2018/03/03/Introduction-to-Public-key-SSH-Login/&title=Introduction to Public-key SSH Login"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://xedr.su/2018/03/03/Introduction-to-Public-key-SSH-Login/&title=Introduction to Public-key SSH Login"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://xedr.su/2018/03/03/Introduction-to-Public-key-SSH-Login/&title=Introduction to Public-key SSH Login"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://xedr.su/2018/03/03/Introduction-to-Public-key-SSH-Login/&name=Introduction to Public-key SSH Login&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2018 Shubhankar Kahali
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/fontawesome-all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Disqus Comments -->
+
+
